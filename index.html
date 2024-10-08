@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediLoan - Your Medical Financial Partner</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #17a2b8;
+            --accent-color: #ffc107;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #ffffff;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header #branding h1 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        header nav ul li {
+            margin-left: 20px;
+        }
+
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        header a:hover {
+            color: var(--accent-color);
+        }
+
+        .page {
+            display: none;
+            padding: 80px 0;
+            min-height: calc(100vh - 70px);
+        }
+
+        #home {
+            background: url('https://source.unsplash.com/random/1600x900/?medical') no-repeat center center/cover;
+            color: #ffffff;
+            text-align: center;
+            padding: 150px 0;
+        }
+
+        #home .overlay {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 50px;
+            border-radius: 10px;
+            margin-bottom: 50px;
+        }
+
+        #home h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        #home p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .button {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #333;
+            padding: 10px 30px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .button:hover {
+            background: #e0a800;
+            transform: translateY(-3px);
+        }
+
+        .feature-box {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+
+        .features .feature-box {
+            flex-basis: calc(50% - 15px);
+        }
+
+        form {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        form input, form select, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .error {
+            color: var(--error-color);
+            font-size: 0.9rem;
+            margin-top: -15px;
+            margin-bottom: 10px;
+        }
+
+        #successMessage {
+            display: none;
+            background: var(--success-color);
+            color: white;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .payment-icons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .payment-icon:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+            }
+
+            header nav ul {
+                margin-top: 20px;
+            }
+
+            header nav ul li {
+                margin: 0 10px;
+            }
+
+            .features .feature-box {
+                flex-basis: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>MediLoan</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showPage('home')">Home</a></li>
+                    <li><a href="#" onclick="showPage('howItWorks')">How It Works</a></li>
+                    <li><a href="#" onclick="showPage('invest')">Invest</a></li>
+                    <li><a href="#" onclick="showPage('borrow')">Borrow</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="home" class="page">
+            <div class="overlay">
+                <h2>Welcome to MediLoan</h2>
+                <p>Your trusted partner in medical financial solutions. We bridge the gap between healthcare needs and financial constraints.</p>
+                <a href="#" class="button" onclick="showPage('howItWorks')">Learn More</a>
+            </div>
+            <div class="features">
+                <div class="feature-box">
+                    <h3>Quick and Easy Process</h3>
+                    <p>Apply for a loan or start investing in just a few clicks. Our streamlined process ensures you get the financial support you need without the hassle.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Competitive Rates</h3>
+                    <p>Whether you're borrowing or investing, our rates are designed to benefit both parties. Get the best value for your money with MediLoan.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Secure and Transparent</h3>
+                    <p>Your security is our priority. We use state-of-the-art encryption and follow strict privacy policies to protect your personal and financial information.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Dedicated Support</h3>
+                    <p>Our team of experts is always ready to assist you. Get personalized support throughout your journey with MediLoan.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Flexible Terms</h3>
+                    <p>Choose from a range of loan amounts and repayment periods that suit your needs. We offer tailored solutions for various medical situations.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Social Impact</h3>
+                    <p>By investing or borrowing with MediLoan, you're contributing to a system that helps people access vital medical care. Be part of a community that cares.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="howItWorks" class="page">
+            <h2>How It Works</h2>
+            <div class="feature-box">
+                <h3>For Investors</h3>
+                <ol>
+                    <li>Create an account and complete verification</li>
+                    <li>Choose your investment amount and term</li>
+                    <li>Transfer funds using your preferred payment method</li>
+                    <li>Track your investments and returns through your dashboard</li>
+                    <li>Receive regular repayments with interest</li>
+                </ol>
+            </div>
+            <div class="feature-box">
+                <h3>For Borrowers</h3>
+                <ol>
+                    <li>Fill out the loan application form</li>
+                    <li>Upload required documents (Aadhar Card, PAN Card, Medical Certificate)</li>
+                    <li>Our team reviews your application</li>
+                    <li>Upon approval, receive funds directly in your account</li>
+                    <li>Repay the loan in easy installments</li>
+                </ol>
+            </div>
+        </div>
+
+        <div id="invest" class="page">
+            <h2>Invest in Medical Loans</h2>
+            <p>Make a difference while earning competitive returns. Your investment helps individuals access crucial medical care.</p>
+            <div class="feature-box">
+                <h3>Investment Benefits</h3>
+                <ul>
+                    <li>Earn up to 8% annual interest on your investment</li>
+                    <li>Choose from flexible investment terms</li>
+                    <li>Start with as little as ₹10,000</li>
+                    <li>Diversify your portfolio with social impact investments</li>
+                </ul>
+            </div>
+            <button class="button" onclick="showInvestForm()">Invest Now</button>
+            <form id="investForm" style="display:none;">
+                <label for="investName">Name:</label>
+                <input type="text" id="investName" required>
+                <div class="error" id="investNameError"></div>
+                
+                <label for="investEmail">Email:</label>
+                <input type="email" id="investEmail" required>
+                <div class="error" id="investEmailError"></div>
+                
+                <label for="investPhone">Phone Number:</label>
+                <input type="tel" id="investPhone" required>
+                <div class="error" id="investPhoneError"></div>
+                
+                <label for="investAmount">Investment Amount (₹):</label>
+                <input type="number" id="investAmount" min="10000" required>
+                <div class="error" id="investAmountError"></div>
+                
+                <label>Payment Method:</label>
+                <div class="payment-icons">
+                    <i class="fab fa-google-pay payment-icon" onclick="selectPaymentMethod('googlepay')"></i>
+                    <i class="fab fa-cc-paypal payment-icon" onclick="selectPaymentMethod('phonepe')"></i>
+                    <i class="fas fa-money-check-alt payment-icon" onclick="selectPaymentMethod('paytm')"></i>
+                </div>
+                <input type="hidden" id="paymentMethod" required>
+                <div class="error" id="paymentMethodError"></div>
+                
+                <label for="paymentScreenshot">Upload Payment Screenshot:</label>
+                <input type="file" id="paymentScreenshot" accept="image/*" required>
+                <div class="error" id="paymentScreenshotError"></div>
+                
+                <button type="button" class="button" onclick="submitInvestForm()">Submit</button>
+            </form>
+        </div>
+
+        <div id="borrow" class="page">
+            <h2>Get a Medical Loan</h2>
+            <p>Access the funds you need for your medical expenses quickly and easily.</p>
+            <div class="feature-box">
+                <h3>Loan Options:</h3>
+                <ul>
+                    <li>Borrow ₹10 lakhs, repay in 8 months</li>
+                    <li>Borrow ₹5 lakhs, repay in 6 months</li>
+                    <li>Borrow ₹2 lakhs, repay in 4 months</li>
+                </ul>
+            </div>
+            <button class="button" onclick="showBorrowForm()">Apply Now</button>
+            <form id="borrowForm" style="display:none;">
+                <label for="borrowName">Name:</label>
+                <input type="text" id="borrowName" required>
+                <div class="error" id="borrowNameError"></div>
+                
+                <label for="borrowEmail">Email:</label>
+                <input type="email" id="borrowEmail" required>
+                <div class="error" id="borrowEmailError"></div>
+                
+                <label for="borrowPhone">Phone Number:</label>
+                <input type="number" id="borrowPhone" required>
+                <div class="error" id="borrowPhoneError"></div>
+                
+                <label for="loanAmount">Loan Amount:</label>
+                <select id="loanAmount" required>
+                    <option value="">Select loan amount</option>
+                    <option value="200000">₹2 lakhs (4 months)</option>
+                    <option value="500000">₹5 lakhs (6 months)</option>
+                    <option value="1000000">₹10 lakhs (8 months)</option>
+                </select>
+                <div class="error" id="loanAmountError"></div>
+                
+               <label for="Hospital">Select Hospital:</label>
+               <select id="Hospital" required>
+                <option value="">Select Hospital</option>
+              <option value="kamineni">Kamineni Hospital</option>
+                <option value="capital">Capital Hospital</option>
+                 <option value="time">Time Hospital</option>
+</select>
+<div class="error" id="HospitalError"></div>
+
+                <label for="aadharCard">Upload Aadhar Card:</label>
+                <input type="file" id="aadharCard" accept=".pdf,.jpg,.jpeg,.png" required>
+                <div class="error" id="aadharCardError"></div>
+
+                
+                <label for="panCard">Upload PAN Card:</label>
+                <input type="file" id="panCard" accept=".pdf,.jpg,.jpeg,.png" required>
+                <div class="error" id="panCardError"></div>
+                
+                <label for="medicalCertificate">Upload Medical Certificate:</label>
+                <input type="file" id="medicalCertificate" accept=".pdf,.jpg,.jpeg,.png" required>
+                <div class="error" id="medicalCertificateError"></div>
+                
+                <button type="button" class="button" onclick="submitBorrowForm()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="successMessage"></div>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.getElementsByClassName('page');
+            for (let page of pages) {
+                page.style.display = 'none';
+            }
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        function showInvestForm() {
+            document.getElementById('investForm').style.display = 'block';
+        }
+
+        function showBorrowForm() {
+            document.getElementById('borrowForm').style.display = 'block';
+        }
+
+        function validateForm(formId) {
+            const form = document.getElementById(formId);
+            const inputs = form.getElementsByTagName('input');
+            const selects = form.getElementsByTagName('select');
+            let isValid = true;
+
+            for (let input of inputs) {
+                if (input.required && !input.value) {
+                    document.getElementById(input.id + 'Error').textContent = 'This field is required.';
+                    isValid = false;
+                } else {
+                    document.getElementById(input.id + 'Error').textContent = '';
+                }
+            }
+
+            for (let select of selects) {
+                if (select.required && !select.value) {
+                    document.getElementById(select.id + 'Error').textContent = 'Please select an option.';
+                    isValid = false;
+                } else {
+                    document.getElementById(select.id + 'Error').textContent = '';
+                }
+            }
+
+            return isValid;
+        }
+
+        function submitInvestForm() {
+            if (validateForm('investForm')) {
+                // Here you would normally send the form data to a server
+                // For this example, we'll just show a success message
+                const successMessage = document.getElementById('successMessage');
+                successMessage.textContent = 'Investment application submitted successfully!';
+                successMessage.style.display = 'block';
+                document.getElementById('investForm').reset();
+                document.getElementById('investForm').style.display = 'none';
+            }
+        }
+
+        function submitBorrowForm() {
+            if (validateForm('borrowForm')) {
+                // Here you would normally send the form data to a server
+                // For this example, we'll just show a success message
+                const successMessage = document.getElementById('successMessage');
+                successMessage.textContent = 'Loan application submitted successfully!';
+                successMessage.style.display = 'block';
+                document.getElementById('borrowForm').reset();
+                document.getElementById('borrowForm').style.display = 'none';
+            }
+        }
+
+        function selectPaymentMethod(method) {
+            document.getElementById('paymentMethod').value = method;
+            document.getElementById('paymentMethodError').textContent = '';
+
+            // Highlight selected payment method
+            const icons = document.getElementsByClassName('payment-icon');
+            for (let icon of icons) {
+                icon.style.color = '';
+            }
+            event.target.style.color = '#0056b3';
+
+            // Open corresponding payment app
+            switch(method) {
+                case 'googlepay':
+                    window.open('https://pay.google.com', '_blank');
+                    break;
+                case 'phonepe':
+                    window.open('https://www.phonepe.com', '_blank');
+                    break;
+                case 'paytm':
+                    window.open('https://paytm.com', '_blank');
+                    break;
+            }
+        }
+
+        // Show the home page by default
+        showPage('home');
+    </script>
+</body>
+</html>
